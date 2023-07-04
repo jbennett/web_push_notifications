@@ -19,3 +19,12 @@ self.addEventListener('push', event => {
         })
     )
 })
+
+self.addEventListener("notificationclick", event => {
+    event.notification.close()
+    console.log(`opening event.notification.data.redirect`)
+
+    event.waitUntil(
+        self.clients.openWindow(event.notification.data.redirect)
+    )
+})
