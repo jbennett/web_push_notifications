@@ -27,6 +27,9 @@ class PostsController < ApplicationController
       if @post.save
         format.html { redirect_to post_url(@post), notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
+
+        notification = NewPostNotification.with(post: @post)
+        notification.deliver_later(User.all)
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @post.errors, status: :unprocessable_entity }
