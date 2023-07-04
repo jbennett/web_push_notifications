@@ -64,3 +64,7 @@ group :development do
   # gem "spring"
 end
 
+
+gem "clearance", "~> 2.6"
+gem "web-push", "~> 3.0"
+gem "noticed", "~> 1.6"
