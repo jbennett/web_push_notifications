@@ -48,5 +48,11 @@ async function setupSubscription() {
         applicationServerKey: vapid
     })
 
-    console.log(JSON.stringify(subscription))
+    await fetch("/web_push_subscriptions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(subscription)
+    })
 }

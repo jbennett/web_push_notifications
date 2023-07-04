@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_04_203350) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_04_204833) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,4 +45,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_04_203350) do
     t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
   end
 
+  create_table "web_push_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "endpoint", null: false
+    t.string "auth_key", null: false
+    t.string "p256dh_key", null: false
+    t.string "user_agent", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_web_push_subscriptions_on_user_id"
+  end
+
+  add_foreign_key "web_push_subscriptions", "users"
 end
