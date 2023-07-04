@@ -25,7 +25,7 @@ function promptForNotifications() {
         Notification.requestPermission()
             .then((permission) => {
                 if (permission === "granted") {
-                    new Notification("Notiifcations enabled") // test notification
+                    setupSubscription()
                 } else {
                     alert("Notifications declined")
                 }
@@ -33,4 +33,20 @@ function promptForNotifications() {
             .catch(error => console.log("Notifications error", error))
             .finally(() => notificationsButton.classList.add("hidden"))
     })
+}
+
+async function setupSubscription() {
+    if (Notification.permission !== "granted") return
+    if (!navigator.serviceWorker) return
+    
+    let vapid = new Uint8Array(JSON.parse(document.querySelector("meta[name=web_push_public]")?.content))
+
+    await navigator.serviceWorker.register("/service_worker.js")
+    const registration = await navigator.serviceWorker.ready
+    const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: vapid
+    })
+
+    console.log(JSON.stringify(subscription))
 }
